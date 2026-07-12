@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SentinelPing Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#151c25",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-secondary": "#2a313b",
+                        "on-tertiary-container": "#461f00",
+                        "on-primary": "#002e6a",
+                        "on-primary-fixed": "#001a42",
+                        "healthy": "#22c55e",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-secondary-fixed-variant": "#404752",
+                        "surface-bright": "#363941",
+                        "surface-dim": "#10131a",
+                        "surface": "#10131a",
+                        "pending": "#9ca3af",
+                        "surface-variant": "#32353c",
+                        "surface-tint": "#adc6ff",
+                        "on-surface-variant": "#c2c6d6",
+                        "background": "#10131a",
+                        "primary": "#adc6ff",
+                        "primary-fixed": "#d8e2ff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "late": "#eab308",
+                        "inverse-on-surface": "#2e3038",
+                        "secondary": "#c0c7d3",
+                        "surface-container-highest": "#32353c",
+                        "tertiary-fixed": "#ffdcc6",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-tertiary": "#502400",
+                        "running": "#3b82f6",
+                        "inverse-primary": "#005ac2",
+                        "secondary-fixed-dim": "#c0c7d3",
+                        "surface-container": "#1d2027",
+                        "surface-container-low": "#191b23",
+                        "secondary-fixed": "#dce3f0",
+                        "secondary-container": "#404752",
+                        "inverse-surface": "#e1e2ec",
+                        "tertiary-container": "#df7412",
+                        "primary-container": "#4d8eff",
+                        "on-surface": "#e1e2ec",
+                        "surface-container-high": "#272a31",
+                        "on-secondary-container": "#afb5c2",
+                        "tertiary": "#ffb786",
+                        "on-primary-container": "#00285d",
+                        "on-background": "#e1e2ec",
+                        "outline": "#8c909f",
+                        "outline-variant": "#424754",
+                        "failed": "#ef4444",
+                        "surface-container-lowest": "#0b0e15",
+                        "on-tertiary-fixed": "#311400"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "sm": "8px",
+                        "max-width": "1280px",
+                        "3xl": "48px",
+                        "lg": "16px",
+                        "md": "12px",
+                        "margin": "24px",
+                        "2xl": "32px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "code-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "code-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "21px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-high border-r border-outline-variant z-50">
+<div class="flex flex-col h-full p-xl">
+<!-- Header -->
+<div class="mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SentinelPing</h1>
+<p class="font-code-sm text-code-sm text-on-surface-variant mt-base">v1.0.4 - Quiet Professional</p>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 space-y-sm">
+<!-- Active: Dashboard -->
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-lg font-bold scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-200 rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span class="font-label-md text-label-md">Monitors</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-200 rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="mt-auto space-y-sm border-t border-outline-variant pt-md">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-200 rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-200 rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Log Out</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col w-full lg:pl-[256px]">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface docked full-width top-0 sticky z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center w-full px-margin h-16">
+<div class="flex items-center gap-md">
+<span class="lg:hidden font-headline-sm text-headline-sm font-bold text-primary">SentinelPing</span>
+<div class="hidden lg:flex items-center gap-md">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Dashboard</h2>
+<span class="font-code-sm text-code-sm text-on-surface-variant bg-surface-variant px-sm py-[2px] rounded-DEFAULT">Last check: 45s ago</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<!-- Trailing Icon Actions -->
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100 p-sm rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100 p-sm rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined">dns</span>
+</button>
+<!-- Trailing Primary Action -->
+<button class="bg-running text-white px-md py-sm rounded-DEFAULT font-label-md text-label-md hover:bg-blue-600 transition-colors ml-sm shadow-sm hidden sm:block">
+                    Create Monitor
+                </button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 p-margin overflow-y-auto max-w-[max-width] mx-auto w-full">
+<!-- Mobile Header context (since it's hidden in TopNavBar on mobile) -->
+<div class="lg:hidden mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-base">Dashboard</h2>
+<span class="font-code-sm text-code-sm text-on-surface-variant bg-surface-variant px-sm py-[2px] rounded-DEFAULT">Last check: 45s ago</span>
+</div>
+<!-- Summary Cards (Bento style grid) -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-gutter mb-xl">
+<!-- Total Monitors -->
+<div class="bg-surface-container rounded-lg p-lg border border-outline-variant flex flex-col justify-between h-24">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Monitors</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">monitor_heart</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-on-surface">12</span>
+</div>
+<!-- Healthy -->
+<div class="bg-surface-container rounded-lg p-lg border border-outline-variant flex flex-col justify-between h-24 relative overflow-hidden group">
+<div class="absolute inset-0 bg-healthy/5 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+<div class="flex justify-between items-start relative z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Healthy</span>
+<span class="material-symbols-outlined text-healthy text-[20px]">check_circle</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-on-surface relative z-10">10</span>
+</div>
+<!-- Late -->
+<div class="bg-surface-container rounded-lg p-lg border border-outline-variant flex flex-col justify-between h-24 relative overflow-hidden group">
+<div class="absolute inset-0 bg-late/5 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+<div class="flex justify-between items-start relative z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Late</span>
+<span class="material-symbols-outlined text-late text-[20px]">schedule</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-on-surface relative z-10">1</span>
+</div>
+<!-- Failed -->
+<div class="bg-surface-container rounded-lg p-lg border border-outline-variant flex flex-col justify-between h-24 relative overflow-hidden group">
+<div class="absolute inset-0 bg-failed/5 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+<div class="flex justify-between items-start relative z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Failed</span>
+<span class="material-symbols-outlined text-failed text-[20px]">error</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-failed relative z-10">1</span>
+</div>
+</section>
+<!-- Monitor List Section -->
+<section class="bg-surface-container rounded-lg border border-outline-variant overflow-hidden">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Active Monitors</h3>
+<div class="flex gap-sm">
+<button class="p-sm text-on-surface-variant hover:text-on-surface bg-surface-container hover:bg-surface-variant border border-outline-variant rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-on-surface bg-surface-container hover:bg-surface-variant border border-outline-variant rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- Desktop Table View -->
+<div class="hidden md:block w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-low">
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant w-16 text-center">Status</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant">Name</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant w-32">Interval</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant w-48">Last Ping</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant w-48">Next Expected</th>
+<th class="py-md px-lg w-12"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1: Healthy -->
+<tr class="hover:bg-surface-variant/50 transition-colors duration-150 group">
+<td class="py-sm px-lg text-center align-middle">
+<div class="w-3 h-3 rounded-full bg-healthy mx-auto shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
+</td>
+<td class="py-sm px-lg">
+<div class="font-body-md text-on-surface font-medium">Database Backup</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant/70 mt-xs">ID: pg-back-01</div>
+</td>
+<td class="py-sm px-lg font-code-sm text-code-sm text-on-surface-variant">Every 1h</td>
+<td class="py-sm px-lg">
+<div class="font-code-sm text-code-sm text-on-surface">10:45:12 AM</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant/70 mt-xs">12 mins ago</div>
+</td>
+<td class="py-sm px-lg font-code-sm text-code-sm text-on-surface-variant">11:45:12 AM</td>
+<td class="py-sm px-lg text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2: Late -->
+<tr class="hover:bg-surface-variant/50 transition-colors duration-150 group bg-late/5">
+<td class="py-sm px-lg text-center align-middle">
+<div class="w-3 h-3 rounded-full bg-late mx-auto shadow-[0_0_8px_rgba(234,179,8,0.4)] animate-pulse"></div>
+</td>
+<td class="py-sm px-lg">
+<div class="font-body-md text-on-surface font-medium flex items-center gap-xs">
+                                        Daily Report Sync
+                                        <span class="bg-late/20 text-late px-[4px] py-[2px] rounded-sm font-label-sm text-[10px] uppercase">Late</span>
+</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant/70 mt-xs">ID: rep-sync-daily</div>
+</td>
+<td class="py-sm px-lg font-code-sm text-code-sm text-on-surface-variant">Every 24h</td>
+<td class="py-sm px-lg">
+<div class="font-code-sm text-code-sm text-late">Yesterday, 08:00 AM</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant/70 mt-xs">25 hrs ago</div>
+</td>
+<td class="py-sm px-lg font-code-sm text-code-sm text-late font-bold">Today, 08:00 AM</td>
+<td class="py-sm px-lg text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3: Failed -->
+<tr class="hover:bg-surface-variant/50 transition-colors duration-150 group bg-failed/5">
+<td class="py-sm px-lg text-center align-middle">
+<div class="w-3 h-3 rounded-full bg-failed mx-auto shadow-[0_0_8px_rgba(239,68,68,0.4)]"></div>
+</td>
+<td class="py-sm px-lg">
+<div class="font-body-md text-on-surface font-medium flex items-center gap-xs">
+                                        Log Rotation
+                                         <span class="bg-failed/20 text-failed px-[4px] py-[2px] rounded-sm font-label-sm text-[10px] uppercase">Failed</span>
+</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant/70 mt-xs">ID: sys-log-rot</div>
+</td>
+<td class="py-sm px-lg font-code-sm text-code-sm text-on-surface-variant">Every 6h</td>
+<td class="py-sm px-lg">
+<div class="font-code-sm text-code-sm text-failed">--</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant/70 mt-xs">Missed window</div>
+</td>
+<td class="py-sm px-lg font-code-sm text-code-sm text-failed font-bold">04:00 AM</td>
+<td class="py-sm px-lg text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4: Running -->
+<tr class="hover:bg-surface-variant/50 transition-colors duration-150 group">
+<td class="py-sm px-lg text-center align-middle">
+<div class="w-3 h-3 rounded-full bg-running mx-auto shadow-[0_0_8px_rgba(59,130,246,0.4)] relative">
+<div class="absolute inset-0 rounded-full border-2 border-running animate-ping opacity-75"></div>
+</div>
+</td>
+<td class="py-sm px-lg">
+<div class="font-body-md text-on-surface font-medium flex items-center gap-xs">
+                                        Media Processing
+                                        <span class="bg-running/20 text-running px-[4px] py-[2px] rounded-sm font-label-sm text-[10px] uppercase flex items-center gap-[2px]">
+<span class="material-symbols-outlined text-[10px]">sync</span> Active
+                                        </span>
+</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant/70 mt-xs">ID: wkr-media-04</div>
+</td>
+<td class="py-sm px-lg font-code-sm text-code-sm text-on-surface-variant">Every 5m</td>
+<td class="py-sm px-lg">
+<div class="font-code-sm text-code-sm text-on-surface">10:57:02 AM</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant/70 mt-xs">Just now</div>
+</td>
+<td class="py-sm px-lg font-code-sm text-code-sm text-on-surface-variant">11:02:00 AM</td>
+<td class="py-sm px-lg text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Mobile Stacked Card View -->
+<div class="md:hidden flex flex-col divide-y divide-outline-variant">
+<!-- Card 1: Healthy -->
+<div class="p-lg hover:bg-surface-variant/30 transition-colors">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-healthy shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
+<h4 class="font-body-md text-on-surface font-medium">Database Backup</h4>
+</div>
+<button class="text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</div>
+<div class="grid grid-cols-2 gap-sm mt-md">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Interval</span>
+<span class="font-code-sm text-code-sm text-on-surface">Every 1h</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Last Ping</span>
+<span class="font-code-sm text-code-sm text-on-surface block">10:45:12 AM</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Late -->
+<div class="p-lg bg-late/5 hover:bg-late/10 transition-colors">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-late shadow-[0_0_8px_rgba(234,179,8,0.4)] animate-pulse"></div>
+<h4 class="font-body-md text-on-surface font-medium">Daily Report Sync</h4>
+</div>
+<span class="bg-late/20 text-late px-sm py-[2px] rounded-sm font-label-sm text-[10px] uppercase">Late</span>
+</div>
+<div class="grid grid-cols-2 gap-sm mt-md">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Next Expected</span>
+<span class="font-code-sm text-code-sm text-late font-bold">Today, 08:00 AM</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Last Ping</span>
+<span class="font-code-sm text-code-sm text-late block">Yesterday, 08:00 AM</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Failed -->
+<div class="p-lg bg-failed/5 hover:bg-failed/10 transition-colors">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-failed shadow-[0_0_8px_rgba(239,68,68,0.4)]"></div>
+<h4 class="font-body-md text-on-surface font-medium">Log Rotation</h4>
+</div>
+<span class="bg-failed/20 text-failed px-sm py-[2px] rounded-sm font-label-sm text-[10px] uppercase">Failed</span>
+</div>
+<div class="grid grid-cols-2 gap-sm mt-md">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Next Expected</span>
+<span class="font-code-sm text-code-sm text-failed font-bold">04:00 AM</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-xs">Last Ping</span>
+<span class="font-code-sm text-code-sm text-failed block">--</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination (Footer) -->
+<div class="p-md border-t border-outline-variant bg-surface-container-lowest flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Showing 1 to 4 of 12</span>
+<div class="flex gap-xs">
+<button class="px-md py-sm bg-surface-container border border-outline-variant rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant font-label-sm transition-colors disabled:opacity-50" disabled="">Prev</button>
+<button class="px-md py-sm bg-surface-container border border-outline-variant rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant font-label-sm transition-colors">Next</button>
+</div>
+</div>
+</section>
+<div class="h-24 lg:h-8"></div> <!-- spacer for mobile nav -->
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-sm bg-surface-container-highest dark:bg-surface-container-highest docked full-width bottom-0 lg:hidden border-t border-outline-variant shadow-lg tap-highlight-transparent">
+<!-- Active: Dashboard -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:bg-surface-variant" href="#">
+<span class="material-symbols-outlined fill text-[24px] mb-[2px]">dashboard</span>
+<span class="font-label-sm text-label-sm-mobile">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant px-4 py-1 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px] mb-[2px]">monitor_heart</span>
+<span class="font-label-sm text-label-sm-mobile">Monitors</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant px-4 py-1 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px] mb-[2px]">settings</span>
+<span class="font-label-sm text-label-sm-mobile">Settings</span>
+</a>
+</nav>
+<!-- Mobile FAB (Create Monitor) - Shown on mobile dashboard since top nav button is hidden -->
+<button class="lg:hidden fixed bottom-24 right-gutter bg-running text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-600 transition-colors active:scale-95 z-40">
+<span class="material-symbols-outlined text-[24px]">add</span>
+</button>
+</body></html>

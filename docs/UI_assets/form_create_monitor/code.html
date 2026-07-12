@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SentinelPing - Create Monitor</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "surface": "#10131a",
+                        "secondary-container": "#404752",
+                        "surface-tint": "#adc6ff",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "surface-dim": "#10131a",
+                        "tertiary-container": "#df7412",
+                        "primary-fixed-dim": "#adc6ff",
+                        "primary": "#adc6ff",
+                        "outline-variant": "#424754",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-container-highest": "#32353c",
+                        "on-secondary-fixed": "#151c25",
+                        "secondary-fixed": "#dce3f0",
+                        "outline": "#8c909f",
+                        "secondary": "#c0c7d3",
+                        "on-tertiary-container": "#461f00",
+                        "secondary-fixed-dim": "#c0c7d3",
+                        "on-tertiary": "#502400",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "on-secondary": "#2a313b",
+                        "surface-container-low": "#191b23",
+                        "on-error": "#690005",
+                        "running": "#3b82f6",
+                        "on-secondary-fixed-variant": "#404752",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-surface-variant": "#c2c6d6",
+                        "on-background": "#e1e2ec",
+                        "on-primary-container": "#00285d",
+                        "late": "#eab308",
+                        "surface-bright": "#363941",
+                        "surface-variant": "#32353c",
+                        "on-primary": "#002e6a",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-high": "#272a31",
+                        "surface-container-lowest": "#0b0e15",
+                        "tertiary": "#ffb786",
+                        "on-surface": "#e1e2ec",
+                        "inverse-on-surface": "#2e3038",
+                        "failed": "#ef4444",
+                        "on-primary-fixed": "#001a42",
+                        "primary-container": "#4d8eff",
+                        "on-secondary-container": "#afb5c2",
+                        "healthy": "#22c55e",
+                        "inverse-surface": "#e1e2ec",
+                        "surface-container": "#1d2027",
+                        "background": "#10131a",
+                        "pending": "#9ca3af",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-primary": "#005ac2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "max-width": "1280px",
+                        "3xl": "48px",
+                        "md": "12px",
+                        "2xl": "32px",
+                        "gutter": "16px",
+                        "xl": "24px",
+                        "margin": "24px",
+                        "lg": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "label-md": ["JetBrains Mono"],
+                        "code-sm": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "code-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "21px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen w-full flex overflow-hidden">
+<!-- SideNavBar (Hidden on Mobile) -->
+<nav class="bg-surface-container dark:bg-surface-container h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-high border-r border-outline-variant z-10">
+<div class="p-xl flex flex-col h-full">
+<div class="flex items-center gap-sm mb-2xl">
+<div class="h-8 w-8 rounded-DEFAULT bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">radar</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SentinelPing</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">v1.0.4 - Quiet Professional</p>
+</div>
+</div>
+<button class="w-full bg-running text-on-primary font-headline-sm text-headline-sm rounded-lg py-md px-lg mb-2xl hover:opacity-90 transition-opacity flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                Create Monitor
+            </button>
+<ul class="flex-1 flex flex-col gap-sm">
+<li>
+<a class="flex items-center gap-lg px-lg py-md rounded-lg font-bold bg-secondary-container text-on-secondary-container" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-lg px-lg py-md rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="monitor_heart">monitor_heart</span>
+<span class="font-label-md text-label-md">Monitors</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-lg px-lg py-md rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto pt-xl border-t border-outline-variant border-opacity-30 flex flex-col gap-sm">
+<a class="flex items-center gap-lg px-lg py-md rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-lg px-lg py-md rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Log Out</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col lg:pl-64 h-full relative">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md border-b border-outline-variant docked full-width top-0 sticky z-30">
+<div class="flex justify-between items-center w-full px-margin h-16">
+<!-- Mobile Menu Button -->
+<button class="lg:hidden text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary lg:hidden">SentinelPing</h2>
+<div class="flex items-center gap-lg ml-auto">
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-failed rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined" data-icon="dns">dns</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant border border-outline-variant overflow-hidden ml-sm">
+<img class="w-full h-full object-cover" data-alt="A futuristic minimalist avatar placeholder featuring glowing geometric cyan lines on a dark void background, exuding a highly technical and professional vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTTcvh17NeJvbsDdik6-jJoCcvSqxfE4PRlTMGOioiwyu7f-o9H5bsByNCKBeruBRKaU8h7xGAYd03Fn3gyBLXXj10rOOK7n-iMmyNmODO7_CJCHXLFc4LRrDLXdS7NUkfFFDPb5bX-cybeS8ueSUdQMLl-zyrLWBi4BF9tl2Fz0wE53Z_hgvV77Hopi8A_Pm1dp26lYSKTNdjn11CDPqN7SwCYFKLyAE74BlcbgfVgwpOcFo4UuKL"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas (Blurred out background) -->
+<main class="flex-1 p-xl overflow-y-auto filter blur-[2px] opacity-50 transition-all duration-300 pointer-events-none">
+<div class="max-w-[1280px] mx-auto">
+<div class="flex items-center justify-between mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard</h2>
+</div>
+<!-- Mock Dashboard Content -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
+<!-- Card 1 -->
+<div class="bg-surface-container rounded-lg border border-outline-variant p-lg flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Database Backup</h3>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-full bg-healthy/10 text-healthy border border-healthy/20 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Healthy
+                            </span>
+</div>
+<div class="flex justify-between items-center pt-sm border-t border-outline-variant/30 mt-sm">
+<span class="text-on-surface-variant font-label-sm text-label-sm">Last Ping</span>
+<span class="font-code-sm text-code-sm text-on-surface">10m ago</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container rounded-lg border border-outline-variant p-lg flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Nightly ETL</h3>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-full bg-late/10 text-late border border-late/20 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">schedule</span>
+                                Late
+                            </span>
+</div>
+<div class="flex justify-between items-center pt-sm border-t border-outline-variant/30 mt-sm">
+<span class="text-on-surface-variant font-label-sm text-label-sm">Expected</span>
+<span class="font-code-sm text-code-sm text-on-surface">2h ago</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-surface-container-highest dark:bg-surface-container-highest border-t border-outline-variant docked full-width bottom-0 lg:hidden shadow-lg fixed bottom-0 left-0 w-full z-20 flex justify-around items-center px-gutter py-sm">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:bg-surface-variant tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="monitor_heart">monitor_heart</span>
+<span class="font-label-sm text-label-sm">Monitors</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<!-- OVERLAY & DIALOG (Active View) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-gutter">
+<!-- Dialog Container -->
+<div class="bg-surface-container w-full max-w-lg rounded-xl border border-outline-variant shadow-2xl flex flex-col animate-[fadeIn_200ms_ease-out]">
+<!-- Dialog Header -->
+<div class="p-xl border-b border-outline-variant/50">
+<div class="flex items-center justify-between mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">Create Monitor</h2>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors rounded-DEFAULT focus:outline-none focus:ring-2 focus:ring-primary p-1">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Configure a new background job monitor. A unique ping URL will be generated upon creation.
+                </p>
+</div>
+<!-- Dialog Body (Form) -->
+<div class="p-xl flex flex-col gap-xl">
+<!-- Name Input -->
+<div class="flex flex-col gap-sm">
+<label class="font-headline-sm text-headline-sm text-on-surface" for="monitor-name">Monitor Name</label>
+<input class="w-full bg-surface border border-outline-variant rounded-DEFAULT px-md py-sm text-on-surface font-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors placeholder:text-on-surface-variant/50" id="monitor-name" placeholder="e.g. Database Nightly Backup" type="text"/>
+</div>
+<!-- Schedule Configuration (Grid layout for density) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-xl">
+<!-- Schedule/Interval -->
+<div class="flex flex-col gap-sm">
+<label class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-xs" for="monitor-schedule">
+                            Schedule
+                            <span class="material-symbols-outlined text-[16px] text-on-surface-variant cursor-help" title="Cron expression or natural language">info</span>
+</label>
+<div class="relative">
+<span class="absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant flex items-center">
+<span class="material-symbols-outlined text-[18px]">update</span>
+</span>
+<input class="w-full bg-surface border border-outline-variant rounded-DEFAULT pl-[36px] pr-md py-sm text-primary font-code-sm text-code-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="monitor-schedule" placeholder="Every 24h" type="text" value="0 0 * * *"/>
+</div>
+</div>
+<!-- Grace Period -->
+<div class="flex flex-col gap-sm">
+<label class="font-headline-sm text-headline-sm text-on-surface" for="monitor-grace">Grace Period</label>
+<div class="flex items-center border border-outline-variant rounded-DEFAULT bg-surface focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-colors overflow-hidden">
+<input class="w-full bg-transparent border-none px-md py-sm text-on-surface font-code-sm text-code-sm outline-none" id="monitor-grace" placeholder="5" type="number" value="15"/>
+<div class="bg-surface-variant px-md py-sm border-l border-outline-variant text-on-surface-variant font-label-sm text-label-sm h-full flex items-center">
+                                mins
+                            </div>
+</div>
+</div>
+</div>
+<!-- Max Runtime -->
+<div class="flex flex-col gap-sm">
+<label class="font-headline-sm text-headline-sm text-on-surface" for="monitor-runtime">Max Runtime</label>
+<p class="text-body-md text-on-surface-variant text-[13px] mb-xs">If running longer than this, mark as failed.</p>
+<div class="flex items-center border border-outline-variant rounded-DEFAULT bg-surface focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-colors overflow-hidden w-full sm:w-1/2">
+<input class="w-full bg-transparent border-none px-md py-sm text-on-surface font-code-sm text-code-sm outline-none" id="monitor-runtime" placeholder="60" type="number"/>
+<div class="bg-surface-variant px-md py-sm border-l border-outline-variant text-on-surface-variant font-label-sm text-label-sm h-full flex items-center">
+                            mins
+                        </div>
+</div>
+</div>
+</div>
+<!-- Dialog Footer -->
+<div class="p-xl border-t border-outline-variant/50 flex items-center justify-end gap-md bg-surface-container-low rounded-b-xl">
+<button class="px-lg py-sm rounded-DEFAULT border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors font-headline-sm text-headline-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                    Cancel
+                </button>
+<button class="px-lg py-sm rounded-DEFAULT bg-running text-on-primary hover:opacity-90 transition-opacity font-headline-sm text-headline-sm flex items-center gap-sm focus:outline-none focus:ring-2 focus:ring-running focus:ring-offset-2 focus:ring-offset-surface">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                    Create Monitor
+                </button>
+</div>
+</div>
+</div>
+<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</body></html>

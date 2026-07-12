@@ -28,7 +28,7 @@ before moving to the next item.
       framework per Context Lock.
 - [ ] Verify: `go run .` boots, connects to local SQLite file, runs
       migration once, does not re-run on second boot.
-- [ ] Init frontend scaffold: Vite + React 18 + TailwindCSS + shadcn/ui
+- [ ] Init frontend scaffold: Vite + React 19 + TailwindCSS + shadcn/ui
       init. Confirm `npm run build` outputs to `web/dist`.
 - [ ] Add root `embed.go` with `//go:embed web/dist` and a placeholder
       static handler serving `index.html`.
@@ -119,8 +119,7 @@ scenarios — this is the differentiating logic of the entire product.
       function first, in isolation, against fixed/mocked timestamps).
 - [ ] Implement the transactional write (state update + state_transitions
       insert in one DB transaction, per Transaction Policy).
-- [ ] Implement notify-on-transition-edge-only logic (Acceptance Scenario
-      8) — write a specific test proving repeated checker ticks in the
+- [ ] Implement notify-on-transition-edge-only logic (Acceptance Scenario 8) — write a specific test proving repeated checker ticks in the
       same failing state do NOT re-trigger notification dispatch.
 
 **Exit criteria**: state machine function is fully unit-tested and passes

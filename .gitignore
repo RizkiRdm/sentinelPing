@@ -1,0 +1,32 @@
+# Go
+/go/bin/
+/go/pkg/
+*.exe
+*.test
+*.out
+trace.out
+sentinelping
+
+# Node
+node_modules/
+web/node_modules/
+web/dist/
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+data/
+
+# Env
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

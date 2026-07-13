@@ -1,121 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from "react"
+import { me, logout, type AuthResponse } from "@/lib/api"
+import { Button } from "@/components/ui/button"
+import { SignupPage } from "@/pages/SignupPage"
+import { LoginPage } from "@/pages/LoginPage"
+
+type View = "loading" | "login" | "signup" | "dashboard"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [view, setView] = useState<View>("loading")
+  const [user, setUser] = useState<AuthResponse | null>(null)
+
+  useEffect(() => {
+    me()
+      .then((u) => {
+        setUser(u)
+        setView("dashboard")
+      })
+      .catch(() => setView("login"))
+  }, [])
+
+  function handleAuthSuccess(user: AuthResponse) {
+    setUser(user)
+    setView("dashboard")
+  }
+
+  async function handleLogout() {
+    await logout()
+    setUser(null)
+    setView("login")
+  }
+
+  if (view === "loading") {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    )
+  }
+
+  if (view === "signup") {
+    return <SignupPage onSuccess={handleAuthSuccess} onSwitchToLogin={() => setView("login")} />
+  }
+
+  if (view === "login") {
+    return <LoginPage onSuccess={handleAuthSuccess} onSwitchToSignup={() => setView("signup")} />
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="mx-auto flex min-h-screen max-w-4xl flex-col px-4">
+      <header className="flex items-center justify-between border-b py-4">
+        <h1 className="text-xl font-semibold">SentinelPing</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-muted-foreground text-sm">{user?.email}</span>
+          <Button variant="outline" size="sm" onClick={handleLogout}>
+            Log out
+          </Button>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <main className="flex flex-1 items-center justify-center">
+        <p className="text-muted-foreground">
+          No monitors yet. Phase 2 coming.
+        </p>
+      </main>
+    </div>
   )
 }
 

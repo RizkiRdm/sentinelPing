@@ -15,24 +15,24 @@ before moving to the next item.
 
 ## Phase 0 — Repository & Environment Foundation
 
-- [ ] Init Go module (`go mod init`), commit `.gitignore` (Go + Node +
+- [x] Init Go module (`go mod init`), commit `.gitignore` (Go + Node +
       SQLite file + `.env`).
-- [ ] Set up directory skeleton per ARCHITECTURE.md Section 5 Module Rules:
+- [x] Set up directory skeleton per ARCHITECTURE.md Section 5 Module Rules:
       `internal/auth`, `internal/monitor`, `internal/ping`,
       `internal/notify`, `internal/scheduler`, `internal/db`.
-- [ ] Add `internal/db/migrations/0001_init.sql` with all 5 tables from
+- [x] Add `internal/db/migrations/0001_init.sql` with all 5 tables from
       ARCHITECTURE.md Section 3 (users, monitors, pings, state_transitions,
       notification_log).
-- [ ] Write minimal hand-rolled migration runner (embedded SQL files,
+- [x] Write minimal hand-rolled migration runner (embedded SQL files,
       version tracking table) — PROHIBITED to add external migration
       framework per Context Lock.
-- [ ] Verify: `go run .` boots, connects to local SQLite file, runs
+- [x] Verify: `go run .` boots, connects to local SQLite file, runs
       migration once, does not re-run on second boot.
-- [ ] Init frontend scaffold: Vite + React 19 + TailwindCSS + shadcn/ui
+- [x] Init frontend scaffold: Vite + React 19 + TailwindCSS + shadcn/ui
       init. Confirm `npm run build` outputs to `web/dist`.
-- [ ] Add root `embed.go` with `//go:embed web/dist` and a placeholder
+- [x] Add root `embed.go` with `//go:embed web/dist` and a placeholder
       static handler serving `index.html`.
-- [ ] Verify: single `go build` produces one binary that serves the Vite
+- [x] Verify: single `go build` produces one binary that serves the Vite
       placeholder page.
 
 **Exit criteria**: one binary boots, connects to DB, serves a static page.
@@ -42,17 +42,17 @@ No business logic yet.
 
 ## Phase 1 — Auth (Foundation for everything else)
 
-- [ ] Implement `internal/auth`: signup (email + password), bcrypt hash
+- [x] Implement `internal/auth`: signup (email + password), bcrypt hash
       (cost 10 per ARCHITECTURE.md), login, session cookie issuance
       (HTTP-only, Secure, SameSite=Lax).
-- [ ] Implement session validation middleware (STRICT: applied to all
+- [x] Implement session validation middleware (STRICT: applied to all
       `/api/*` except `/api/auth/signup` and `/api/auth/login`, per
       Security Contract).
-- [ ] Write unit tests for signup/login happy path + duplicate email
+- [x] Write unit tests for signup/login happy path + duplicate email
       rejection + wrong password rejection.
-- [ ] Build minimal frontend: signup form, login form, logout button. No
+- [x] Build minimal frontend: signup form, login form, logout button. No
       styling polish beyond shadcn/ui defaults.
-- [ ] Verify end-to-end: signup via UI → session cookie set → protected
+- [x] Verify end-to-end: signup via UI → session cookie set → protected
       route accessible → logout clears session.
 
 **Exit criteria**: a user can sign up, log in, log out. No monitor

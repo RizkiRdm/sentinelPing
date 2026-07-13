@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/RizkiRdm/sentinelPing/internal/auth"
 	"github.com/RizkiRdm/sentinelPing/internal/db"
 	"github.com/go-chi/chi/v5"
 	chimw "github.com/go-chi/chi/v5/middleware"
@@ -47,10 +48,22 @@ func run(dbPath, listenAddr string) error {
 
 	slog.Info("migrations complete")
 
+	authRepo := auth.NewRepository(database)
+	authSvc := auth.NewService(authRepo)
+	authHandler := auth.NewHandler(authSvc)
+
 	r := chi.NewRouter()
 	r.Use(chimw.Logger)
 	r.Use(chimw.Recoverer)
 	r.Use(chimw.StripSlashes)
+	r.Use(authSvc.Middleware)
+
+	r.Route("/api/auth", func(r chi.Router) {
+		r.Post("/signup", authHandler.Signup)
+		r.Post("/login", authHandler.Login)
+		r.Post("/logout", authHandler.Logout)
+		r.Get("/me", authHandler.Me)
+	})
 
 	staticFS, err := fs.Sub(WebFS, "web/dist")
 	if err != nil {
